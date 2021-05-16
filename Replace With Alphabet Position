@@ -1,0 +1,9 @@
+def alphabet_position(text):
+    text_lowercase = text.lower()
+    return_list = []
+    
+    for letter in text_lowercase:
+        if letter.isalpha() == True:
+            return_list.append(str(ord(letter) - 96))
+            
+    return ' '.join(return_list)
