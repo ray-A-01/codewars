@@ -1,0 +1,4 @@
+def friend(friend_list):
+    return_list = [name for name in friend_list if len(name) == 4]
+                
+    return return_list
