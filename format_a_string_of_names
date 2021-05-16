@@ -15,7 +15,6 @@
 # '-' and '.'."
 
 def namelist(names):
-    name_list = []
     name_list = [ind_name['name'] for ind_name in names]
     if len(name_list) > 1:
         return ', '.join(name_list[:len(name_list) - 1]) + ' & ' + name_list[-1]
