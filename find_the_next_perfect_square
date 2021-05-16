@@ -1,0 +1,8 @@
+import math
+
+def find_next_square(sq):
+    sq_root = math.sqrt(sq)
+    if (sq_root // 1) == sq_root:
+        return math.pow(sq_root + 1, 2)
+    else:
+        return -1
