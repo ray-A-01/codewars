@@ -1,0 +1,25 @@
+# Date Originally Written: 08/2020
+# Kata Description: "Given: an array containing hashes of names 
+# Return: a string formatted as a list of names separated by commas except
+# for the last two names, which should be separated by an ampersand.
+# Example:
+# namelist([ {'name': 'Bart'}, {'name': 'Lisa'}, {'name': 'Maggie'} ])
+# returns 'Bart, Lisa & Maggie'
+# namelist([ {'name': 'Bart'}, {'name': 'Lisa'} ])
+# returns 'Bart & Lisa'
+# namelist([ {'name': 'Bart'} ])
+# returns 'Bart'
+# namelist([])
+# returns ''
+# Note: all the hashes are pre-validated and will only contain A-Z, a-z,
+# '-' and '.'."
+
+def namelist(names):
+    name_list = []
+    name_list = [ind_name['name'] for ind_name in names]
+    if len(name_list) > 1:
+        return ', '.join(name_list[:len(name_list) - 1]) + ' & ' + name_list[-1]
+    elif len(name_list) == 1:
+        return name_list[0]
+    else:
+        return ''
