@@ -1,0 +1,38 @@
+# Date Originally Written: 09/2020
+# Kata Description: "1, 246, 2, 123, 3, 82, 6, 41 are the divisors of
+# number 246. Squaring these divisors we get: 1, 60516, 4, 15129, 9, 6724,
+# 36, 1681. The sum of these squares is 84100 which is 290 * 290.
+# Task:
+# Find all integers between m and n (m and n integers such as 1 <= m <= n)
+# such that the sum of their squared divisors is itself a square.
+# We will return an array of subarrays or of tuples (in C an array of Pair) or a string. The subarrays (or tuples or Pairs) will have two elements: first the number the squared divisors of which is a square and then the sum of the squared divisors.
+# Example:
+# list_squared(1, 250) --> [[1, 1], [42, 2500], [246, 84100]]
+# list_squared(42, 250) --> [[42, 2500], [246, 84100]]"
+
+import math
+
+
+def store_diviors_squared_sum(func):
+    store = {}
+    def helper(integer):
+        if integer not in store:
+            store[integer] = func(integer)
+        return store[integer]
+    return helper
+
+@store_diviors_squared_sum
+def divisors_squared_sum(integer):
+    squared_divisors_sum = 1
+    for number in range(2, integer+1):
+        if integer % number == 0: squared_divisors_sum += number**2
+    return squared_divisors_sum
+
+
+def list_squared(m, n):
+    return_array = []
+    for integer in range(m, n+1):
+        squared_divisors_sum = divisors_squared_sum(integer)
+        if math.sqrt(squared_divisors_sum) % 1 == 0:
+            return_array.append([integer, squared_divisors_sum])
+    return return_array
