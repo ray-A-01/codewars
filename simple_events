@@ -1,3 +1,4 @@
+#------------------------------------------------------------------------
 # Date Originally Written: 10/2020
 # Kata Description: "Your goal is to write an Event constructor function,
 # which can be used to make event objects.
@@ -17,6 +18,7 @@
 # the context of handlers' execution is not important;
 # each handler will be subscribed at most once at any given moment of
 # time. It can still be unsubscribed and then subscribed again"
+#------------------------------------------------------------------------
 
 class Event():
     def __init__(self):
