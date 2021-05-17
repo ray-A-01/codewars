@@ -1,0 +1,39 @@
+# Date Originally Written: 10/2020
+# Kata Description: "Given an array arr of strings complete the function
+# landPerimeter by calculating the total perimeter of all the islands. 
+# Each piece of land will be marked with 'X' while the water fields are
+# represented as 'O'. Consider each tile being a perfect 1 x 1piece of land.
+# Some examples for better visualization:
+# ['XOOXO',
+# 'XOOXO',
+# 'OOOXO',
+# 'XXOXO',
+# 'OXOOO']
+# should return: "Total land perimeter: 24",
+# while
+# ['XOOO',
+# 'XOXO',
+# 'XOXO',
+# 'OOXX',
+# 'OOOO']
+# should return: "Total land perimeter: 18""
+
+def land_perimeter(arr):
+    arr = [row.replace('X', '1').replace('O', '0') for row in arr]
+    land_neighbors = []
+    total_rows = len(arr)
+    total_cols = len(arr[0])
+
+    # Calculating the # of neighbors each land has
+    for row in range(total_rows):
+        for col in range(total_cols):
+            neighbors = 0
+            if arr[row][col] != '1': continue
+            if col+1 <= total_cols-1: neighbors += int(arr[row][col+1])
+            if col-1 >= 0: neighbors += int(arr[row][col-1])
+            if row+1 <= total_rows-1: neighbors += int(arr[row+1][col])
+            if row-1 >= 0: neighbors += int(arr[row-1][col])
+            land_neighbors.append(neighbors)
+
+    # For each land, removing a side per neighbor, and adding the remainders
+    return 'Total land perimeter: ' + str(4*len(land_neighbors) - sum(land_neighbors))
