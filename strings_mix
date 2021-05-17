@@ -1,3 +1,4 @@
+#------------------------------------------------------------------------
 # Date Originally Written: 09/2020
 # Kata Description: "Given two strings s1 and s2, we want to visualize how
 # different the two strings are. We will only take into account the
@@ -24,6 +25,7 @@
 # when they have the same length sorted in ascending lexicographic order
 # (letters and digits - more precisely sorted by codepoint); the different
 # groups will be separated by '/'"
+#------------------------------------------------------------------------
 
 import itertools as iter
 import operator
