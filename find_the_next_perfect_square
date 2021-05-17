@@ -1,3 +1,4 @@
+#------------------------------------------------------------------------
 # Date Originally Written: 08/2020
 # Kata Description: " You might know some pretty large perfect squares. 
 # But what about the NEXT one? 
@@ -10,6 +11,7 @@
 # findNextSquare(121) --> returns 144
 # findNextSquare(625) --> returns 676
 # findNextSquare(114) --> returns -1 since 114 is not a perfect square"
+#------------------------------------------------------------------------
 
 import math
 
