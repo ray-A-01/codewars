@@ -1,3 +1,4 @@
+#------------------------------------------------------------------------
 # Date Originally Written: 10/2020
 # Kata Description: "This time we want to write calculations using functions
 # and get the results. Let's have a look at some examples:
@@ -13,6 +14,7 @@
 # The most outer function represents the left operand, the most inner function
 # represents the right operand;
 # Division should be integer division."
+#------------------------------------------------------------------------
 
 def calc_with_funcs(number):
     def func(number_func):
