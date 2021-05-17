@@ -1,0 +1,40 @@
+# Date Originally Written: 12/2020
+# Kata Link: https://www.codewars.com/kata/566584e3309db1b17d000027/python
+# Kata Description: "Create a function that differentiates a polynomial for
+# a given value of x.
+# Your function will receive 2 arguments: a polynomial as a string, and a
+# point to evaluate the equation as an integer.
+# Assumptions:
+# >There will be a coefficient near each x, unless the coefficient equals 1 or -1.
+# >There will be an exponent near each x, unless the exponent equals 0 or 1.
+# >All exponents will be greater or equal to zero"
+
+import re
+
+
+def differentiate_exp_greaterthan_one(match_obj):
+    exp = re.search('x\^(\d+)',match_obj.group()).group(1)
+    try:
+        coeff = re.search('(\d+)x\^',match_obj.group()).group(1)
+    except AttributeError:
+        coeff = 1
+    return str(int(coeff)*int(exp)) + 'x**' + str(int(exp) - 1)
+
+def differentiate_exp_equal_one(match_obj):
+    try:
+        coeff = re.search('(\d+)x',match_obj.group()).group(1)
+    except AttributeError:
+        coeff = 1
+    return str(coeff)
+
+def differentiate_term(match_obj):
+    if match_obj.group().find('^') != -1:
+        return eval("differentiate_exp_greaterthan_one(match_obj)")
+    elif match_obj.group().find('x') != -1:
+        return eval("differentiate_exp_equal_one(match_obj)")
+    else:
+        return '0'
+
+def differentiate(equation, point):
+    equation = re.sub('(\d*x\^\d+)|(\d*x)|(\d+)',differentiate_term,equation)
+    return eval(equation.replace('x', '*' + '(' + str(point) + ')'))
