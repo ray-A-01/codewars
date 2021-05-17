@@ -1,0 +1,54 @@
+# Date Originally Written: 10/2020
+# Kata Link: https://www.codewars.com/kata/566b490c8b164e03f8000002
+# Kata Description: "You and your friends have been battling it out with
+# your Rock 'Em, Sock 'Em robots, but things have gotten a little boring.
+# You've each decided to add some amazing new features to your robot and
+# automate them to battle to the death.
+# Each robot will be represented by an object. You will be given two robot
+# objects, and an object of battle tactics and how much damage they produce.
+# Each robot will have a name, hit points, speed, and then a list of battle
+# tacitcs they are to perform in order. Whichever robot has the best speed,
+# will attack first with one battle tactic.
+# Your job is to decide who wins.
+# Rules:
+# >A robot with the most speed attacks first. If they are tied, the first
+# robot passed in attacks first.
+# >Robots alternate turns attacking. Tactics are used in order.
+# >A fight is over when a robot has 0 or less health or both robots have
+# run out of tactics.
+# >A robot who has no tactics left does no more damage, but the other robot
+# may use the rest of his tactics.
+# >If both robots run out of tactics, whoever has the most health wins.
+# Return the message "{Name} has won the fight."
+# >If both robots run out of tactics and are tied for health, the fight
+# is a draw. Return "The fight was a draw.""
+
+
+def fight(robot_1, robot_2, tactics):
+    # Deciding which robot goes first
+    if robot_2['speed'] > robot_1['speed']:
+        player_1 = robot_2
+        player_2 = robot_1
+    else:
+        player_1 = robot_1
+        player_2 = robot_2
+    
+    # Battle
+    round = 1
+    while round <= max(len(player_1['tactics']), len(player_2['tactics'])):
+        try: player_2['health'] -= tactics[player_1['tactics'][round-1]]
+        except IndexError: pass
+        if player_2['health'] <= 0: break
+        try: player_1['health'] -= tactics[player_2['tactics'][round-1]]
+        except IndexError: pass
+        if player_1['health'] <= 0: break
+        round += 1
+        
+    # Determining winner
+    if player_1['health'] > player_2['health']:
+        return player_1['name'] + " has won the fight."
+    elif player_2['health'] > player_1['health']:
+        return player_2['name'] + " has won the fight."
+    else:
+        return "The fight was a draw."
+        
