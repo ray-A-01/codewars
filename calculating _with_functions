@@ -1,0 +1,76 @@
+# Date Originally Written: 10/2020
+# Kata Description: "This time we want to write calculations using functions
+# and get the results. Let's have a look at some examples:
+# seven(times(five())) # must return 35;
+# four(plus(nine())) # must return 13;
+# eight(minus(three())) # must return 5;
+# six(divided_by(two())) # must return 3.
+# Requirements:
+# There must be a function for each number from 0 ("zero") to 9 ("nine");
+# There must be a function for each of the following mathematical operations:
+# plus, minus, times, dividedBy (divided_by in Ruby and Python);
+# Each calculation consist of exactly one operation and two numbers;
+# The most outer function represents the left operand, the most inner function
+# represents the right operand;
+# Division should be integer division."
+
+def calc_with_funcs(number):
+    def func(number_func):
+        def wrapper_func(operation = None):
+            if operation != None:
+                return operation(number)
+            else:
+                return number
+        return wrapper_func
+    return func
+
+
+@calc_with_funcs(0)
+def zero(func): pass
+
+@calc_with_funcs(1)
+def one(): pass
+
+@calc_with_funcs(2)
+def two(): pass
+    
+@calc_with_funcs(3)
+def three(): pass
+    
+@calc_with_funcs(4)
+def four(): pass
+
+@calc_with_funcs(5)
+def five(): pass
+
+@calc_with_funcs(6)
+def six(): pass
+
+@calc_with_funcs(7)
+def seven(): pass
+
+@calc_with_funcs(8)
+def eight(): pass
+
+@calc_with_funcs(9)
+def nine(): pass
+
+def plus(right_operand):
+    def add(left_operand):
+        return left_operand + right_operand
+    return add
+
+def minus(right_operand): #your code here
+    def sub(left_operand):
+        return left_operand - right_operand
+    return sub
+
+def times(right_operand): 
+    def mult(left_operand):
+        return left_operand * right_operand
+    return mult
+
+def divided_by(right_operand):
+    def div(left_operand):
+        return left_operand // right_operand
+    return div
