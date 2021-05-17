@@ -1,3 +1,4 @@
+#------------------------------------------------------------------------
 # Date Originally Written: 10/2020
 # Kata Link: https://www.codewars.com/kata/566b490c8b164e03f8000002
 # Kata Description: "You and your friends have been battling it out with
@@ -22,7 +23,7 @@
 # Return the message "{Name} has won the fight."
 # >If both robots run out of tactics and are tied for health, the fight
 # is a draw. Return "The fight was a draw.""
-
+#------------------------------------------------------------------------
 
 def fight(robot_1, robot_2, tactics):
     # Deciding which robot goes first
