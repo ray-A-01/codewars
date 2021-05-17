@@ -9,3 +9,11 @@
 #    942  -->  9 + 4 + 2 = 15  -->  1 + 5 = 6
 # 132189  -->  1 + 3 + 2 + 1 + 8 + 9 = 24  -->  2 + 4 = 6"
 #------------------------------------------------------------------------
+
+def digital_root(n):
+    sum_of_digits = 0
+    if len(str(n)) == 1:
+        return n
+    for digit in str(n):
+        sum_of_digits += int(digit)
+    return digital_root(sum_of_digits)
