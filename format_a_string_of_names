@@ -1,3 +1,4 @@
+#------------------------------------------------------------------------
 # Date Originally Written: 08/2020
 # Kata Description: "Given: an array containing hashes of names 
 # Return: a string formatted as a list of names separated by commas except
@@ -13,6 +14,7 @@
 # returns ''
 # Note: all the hashes are pre-validated and will only contain A-Z, a-z,
 # '-' and '.'."
+#------------------------------------------------------------------------
 
 def namelist(names):
     name_list = [ind_name['name'] for ind_name in names]
