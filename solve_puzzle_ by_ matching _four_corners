@@ -1,0 +1,128 @@
+#------------------------------------------------------------------------
+# Kata Link: https://www.codewars.com/kata/5ef2bc554a7606002a366006
+# Kata Description:
+# The goal here is to solve a puzzle (the "pieces of paper" kind of puzzle).
+# You will receive different pieces of that puzzle as input, and you will
+# have to find in what order you have to rearrange them so that the
+# "picture" of the puzzle is complete.
+# All the pieces of the puzzle will be represented in the following way:
+# > 4 numbers, grouped in 2 tuples, which are representing the "picture"
+#    on the piece. Every piece has a 2x2 size.
+# > 1 id number. All id numbers are unique in a puzzle, but their value
+#   may be random.
+# > Note that all numbers will be non-negative integers
+# For example,
+# ((1, 2), (3, 4), 1) 
+#  Puzzle piece id ^  
+# is equivalent the the following square piece of puzzle, having the
+# id number 1:
+# +---+
+# |1 2|
+# |3 4|
+# +---+
+# If the piece is on a border or is a corner, some numbers will be
+# replaced with None:
+# ((None, None), (1, 2), 10)       -->   upper border
+# ((9, None), (None, None), 11)   -->   bottom right corner
+# 
+# Solving the puzzle-
+# > You'll get an array of pieces as well as the size of the puzzle
+#   (width and height).
+# > Two pieces can be assembled if they share the same pattern on the
+#   border where they are in contact (see example below).
+# > Puzzle pieces being unique, you'll never encounter two different
+#   pieces that could be assembled with the same third one.
+# > Once you found the proper arrangment for all the pieces, return the
+#   solved puzzle as a list of tuples (height * width) of the id number
+#    of the piece at its correct position.
+# 
+# Example-
+# Inputs:-
+# width, height = 3,3
+# pieces = [ ((None, 5), (None, None), 3), 
+#            ((17, None), (None, None), 9),
+#            ((None, 4), (None, 5), 8),
+#            ((4, 11), (5, 17), 5),
+#            ((11, None), (17, None), 2),   
+#            ((None, None), (None, 4), 7),
+#            ((5, 17), (None, None), 1), 
+#            ((None, None), (11, None), 4),
+#            ((None, None), (4, 11), 6) ]`
+# In this case, the expected output would be:-
+# expected = [(7, 6, 4), (8, 5, 2), (3, 1, 9)]
+#------------------------------------------------------------------------
+
+
+def puzzle_solver(pieces, width, height):
+    completed_puzzle = []
+
+    # Depending on the block of the final puzzle, and a given row,
+    # a singular point (corner) of a neighbouring piece can be used to
+    # determine the correct piece for the block.
+    # The figure below shows the singular point (x) from which each block
+    # can be determined, indicated by '*' (the arrow head indicates the
+    # block to which the corner point, 'x', belongs). 
+    # x-----x-----x-----x
+    # |     |     |     |
+    # |     |     |     |
+    # |     |*<   |*<   |
+    # x-----x-----x-----x
+    # |    *|*<   |*<   |
+    # |    ^|     |     |
+    # |     |     |     |
+    # x-----x-----x-----x
+    # |    *|*<   |*<   |
+    # |    ^|     |     |
+    # |     |     |     |
+    # x-----x-----x-----x
+    # Note: as seen in the above figure, the first block of each row after the 
+    # first is determined w.r.t first block of the prior row.
+
+    # Putting together the first row.
+    row_ids = []
+    for list_pos, (group_1, group_2, id) in enumerate(pieces):
+        # Determining the first piece of the puzzle;
+        # This will be the upper-left corner of the puzzle.
+        # Since it's in the upper corner, it's coordinates will always be:
+        # ((None, None), (None, n)); where n is any +ive integer.
+        if group_1 == (None, None) and group_2[0] == None:
+            row_ids.append(id)
+            value_to_match = group_2[1]
+            # Storing the block numbers as they will be used to determine 
+            # the first piece of the next row.
+            first_column_ref_block = (group_1, group_2)
+            pieces.pop(list_pos)
+            break
+    for col in range(1, width):
+        # Determining the rest of the first row.
+        for list_pos, (group_1, group_2, id) in enumerate(pieces):
+            if group_2[0] == value_to_match:
+                row_ids.append(id)
+                value_to_match = group_2[1]
+                pieces.pop(list_pos)
+                break
+    completed_puzzle.append((*row_ids,))
+    # Putting together the rest of the puzzle.
+    for row in range(1, height):
+        row_ids = []
+        for list_pos, (group_1, group_2, id) in enumerate(pieces):
+            # Determining the leftmost piece
+            if (group_1 == (None, first_column_ref_block[1][1]) and
+                    group_2[0] == None):
+                row_ids.append(id)
+                value_to_match = group_1[1]
+                first_column_ref_block = (group_1, group_2)
+                pieces.pop(list_pos)
+                break
+        for col in range(1, width):
+            # Determining the rest of the row
+            for list_pos, (group_1, group_2, id) in enumerate(pieces):
+                if group_1[0] == value_to_match:
+                    row_ids.append(id)
+                    value_to_match = group_1[1]
+                    pieces.pop(list_pos)
+                    break
+        completed_puzzle.append((*row_ids,))
+
+    return completed_puzzle
+    
