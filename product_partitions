@@ -62,13 +62,13 @@ def find_partitions(factors, append_to, prod_partitions):
         factors_of_factor = determine_factors(factor)
         if len(factors) > 0: 
             for i in factors_of_factor:
-                temp = append_to_temp + [factor/i, i]
-                temp.sort(reverse=True)
-                if temp not in prod_partitions: 
-                    prod_partitions.append(temp)
+                partition_to_add = append_to_temp + [factor/i, i]
+                partition_to_add.sort(reverse=True)
+                if partition_to_add not in prod_partitions: 
+                    prod_partitions.append(partition_to_add)
                 find_partitions([i, factor/i], 
-                                 append_to_temp + [factor/i, i],
-                                 prod_partitions)
+                                append_to_temp + [factor/i, i],
+                                prod_partitions)
 
 
 def calculate_score(partition):
@@ -83,16 +83,15 @@ def find_spec_prod_part(n, com):
     factors = determine_factors(n)
     if len(factors) == 0:  # Checking for Prime Number
         return "It is a prime number"
-    
+
     prod_partitions = []
     for factor in factors:
         prod_partitions.append([n/factor, factor])
-        find_partitions([factor, n/factor],
-                        [factor, n/factor],
-                        prod_partitions)
-    
+        find_partitions([n/factor], [factor, n/factor], prod_partitions)
+
     scores = [calculate_score(partition) for partition in prod_partitions]
     if com == 'max':
         return [prod_partitions[scores.index(max(scores))], max(scores)]
     else:
         return [prod_partitions[scores.index(min(scores))], min(scores)]
+ 
