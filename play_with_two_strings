@@ -1,0 +1,24 @@
+#------------------------------------------------------------------------
+# Kata Link: https://www.codewars.com/kata/56c30ad8585d9ab99b000c54
+# Kata Description:
+# Your task is to combine two Strings. But consider the rule...
+# Input Strings a and b: For every character in string a swap the casing of
+# every occurrence of the same character in string b. Then do the same
+# casing swap with the inputs reversed. Return a single string consisting of
+# the changed version of a followed by the changed version of b. A char of a
+# is in b regardless if it's in upper or lower case.
+#------------------------------------------------------------------------
+
+
+def swap_case(char, other_string):
+    for count in range(other_string.lower().count(char.lower())):
+        char = char.swapcase()
+        
+    return char
+
+
+def work_on_strings(a,b):
+    a_swapped = ''.join([swap_case(char, b) for char in a])
+    b_swapped = ''.join([swap_case(char, a) for char in b])
+    
+    return a_swapped + b_swapped
