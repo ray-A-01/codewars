@@ -8,6 +8,7 @@ def bowling_score(frames):
     # Initializing variables
     total_points = 0
     roll_details = []
+    
     # Getting roll details- points*, # of following rolls to consider,
     # and the frame that the roll belongs to. 
     # *the points assc. with a roll will not take into account next
@@ -21,9 +22,11 @@ def bowling_score(frames):
             else: 
                 roll_details.append([int(roll), 0, frame_id + 1])
                 prev_role_score = int(roll)
+                
     # Adding the exra points to take into account for strikes and spares.
     for roll_id, roll in enumerate(roll_details):
         total_points += roll[0] + sum([roll_details[roll_id + next_roll + 1][0]
                                         for next_roll in range(0, roll[1]) 
                                         if roll[2] != 10])
+                                        
     return total_points
