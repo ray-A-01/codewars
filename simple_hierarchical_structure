@@ -1,0 +1,19 @@
+#------------------------------------------------------------------------
+# Kata Link: https://www.codewars.com/kata/5812a2a2492760dfca000450/sql
+#------------------------------------------------------------------------
+
+WITH RECURSIVE employee_levels AS (
+  SELECT id, 1 as level
+  FROM employees
+  WHERE manager_id IS NULL
+  UNION 
+  SELECT e.id, el.level + 1 as level
+  FROM employees e
+  JOIN employee_levels el
+    ON el.id = e.manager_id
+)
+
+SELECT el.level, el.id, e.first_name, e.last_name, e.manager_id
+FROM employee_levels el
+JOIN employees e
+  ON el.id = e.id
