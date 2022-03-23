@@ -1,0 +1,28 @@
+#------------------------------------------------------------------------
+# Kata Link: https://www.codewars.com/kata/53e57dada0cb0400ba000688/python
+#------------------------------------------------------------------------
+
+
+from math import factorial
+from decimal import Decimal
+
+
+def word_factorial(word):
+    unique_letters = set(word)
+    total_possible_words = Decimal(factorial(len(word)))
+    for letter in unique_letters:
+        total_possible_words /= Decimal(factorial(word[:].count(letter)))
+
+    return total_possible_words
+
+
+def listPosition(word):
+    pos = 1
+    for char_pos, char in enumerate(word):
+        unique_letters = sorted(word[char_pos:])
+        pos += Decimal(unique_letters.index(char) * word_factorial(word[char_pos:])
+                   / len(unique_letters))
+        char_pos += 1
+
+    return pos
+        
