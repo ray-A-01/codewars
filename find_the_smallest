@@ -1,0 +1,65 @@
+#------------------------------------------------------------------------
+# Kata Link: https://www.codewars.com/kata/573992c724fc289553000e95/python
+# NOTE: With this solution, I attempted to solve the challenge without 
+#       going through all possible variations of a number.
+#------------------------------------------------------------------------
+
+
+def smallest(n):
+    n_list = list(n.__str__())
+    n_list_copy = n_list.copy()
+    n_list_sorted = sorted(n_list)
+    
+    # Checking if input number is the smallest number.
+    if n_list_sorted == n_list: return [n, 0, 0]
+    
+    # In the case where the first digit > the second digit,
+    # and the second digit is the smallest digit in the number,
+    # the first digit needs to be moved to an appropriate index
+    # later in the number. E.g., in 9013, '9' needs to be moved.
+    solution_one = []
+    if n_list[0] > n_list[1] and n_list[1] == n_list_sorted[0]:
+        insert_idx = 2
+        while insert_idx < len(n_list) and n_list[0] >= n_list[insert_idx]:
+            insert_idx += 1
+        while n_list[0] == n_list[insert_idx-1]:
+            # Ensuring that "j" is as small as possible.
+            # E.g., in 90139, the first '9' should be inserted
+            # before the last '9'.
+            insert_idx -= 1
+        n_list_copy.insert(insert_idx - 1, n_list_copy.pop(0))
+        solution_one = [int(''.join(n_list_copy)), 0, insert_idx - 1]
+    
+    # For all other cases, the smallest digit out of order needs
+    # to be put in an *earlier* place.
+    # NOTE: We will work with the number reversed to access the 
+    # last occurrence of the smallest digit out of order.
+    # Moving the last occurrence of the digit to a place before
+    # the first occurrence will always result in a smaller number.
+    # E.g. if 302809, 030289 < 032809.
+    n_list.reverse()  
+    insert_idx = len(n_list) - 1
+    while True:
+        if n_list[:insert_idx + 1].index(
+                min(n_list[:insert_idx + 1])) == len(
+                n_list[:insert_idx + 1]) - 1:
+            insert_idx -= 1
+        else:
+            get_idx = n_list.index(min(n_list[:insert_idx + 1]))
+            while n_list[get_idx] == n_list[get_idx+1]:
+                # Ensuring that "i" is as small as possible.
+                get_idx += 1
+            break
+    if insert_idx - get_idx == 1:  
+        # Ensuring that "i" is as small as possible.
+        get_idx, insert_idx = insert_idx, get_idx
+    get_idx = len(n_list) - get_idx - 1  # Index w.r.t to original list
+    insert_idx = len(n_list) - insert_idx - 1
+    n_list.reverse()
+    n_list.insert(insert_idx, n_list.pop(get_idx))
+    solution_two = [int(''.join(n_list)), get_idx, insert_idx]
+    
+    if len(solution_one) > 0 and solution_one[0] < solution_two[0]:
+        return solution_one
+    else:
+        return solution_two
