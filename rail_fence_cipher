@@ -1,0 +1,50 @@
+#------------------------------------------------------------------------
+# Kata Link: https://www.codewars.com/kata/58c5577d61aefcf3ff000081/python
+#------------------------------------------------------------------------
+
+
+def encode_rail_fence_cipher(string, n):
+    values_by_rail = dict()
+    for rail in range(n):
+        values_by_rail[rail] = []
+
+    char_pos = 0
+    while char_pos < len(string):
+        for i in range(n):
+            if char_pos == len(string): break
+            values_by_rail[i].append(string[char_pos])
+            char_pos += 1
+        for i in range(n - 2, 0, -1):
+            if char_pos == len(string): break
+            values_by_rail[i].append(string[char_pos])
+            char_pos += 1
+
+    return ''.join([char for rail in values_by_rail.values() for char in rail])
+
+
+def decode_rail_fence_cipher(string, n):
+    """When decoding, I use the concept of "loops".
+       In the example below:
+       A    E   I
+        B  D F H
+         C    G
+       A through E is one "loop"; E through I is another.
+       For each rail, at any given loop, the corresponding
+       indices are given as rail + (n - 1) * 2 * loop and
+       rail + (n - 1) * 2 * loop + (n - 1 - rail) * 2,
+       taking into account zero-based indexing.
+    """
+    decoded = dict()
+    char_pos = 0
+
+    for rail in range(n):
+        for loop in range(int(len(string)/n)):
+            for decoded_idx in [rail + (n - 1) * 2 * loop,
+                             rail + (n - 1) * 2 * loop + (n - 1 - rail) * 2]:
+                if decoded_idx >= len(string): break
+                if not decoded_idx in decoded:
+                    decoded[decoded_idx] = string[char_pos]
+                    char_pos += 1
+
+    return ''.join([decoded[key] for key in sorted(decoded.keys())])
+    
